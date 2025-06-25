@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Our Mission - Families First</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Scroll wrapper fills viewport height and hides overflow */
+    .scroll-wrapper {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      margin-top: 140px; /* header height */
+    }
+
+    /* Scroll container is fixed, horizontally laid out panels */
+    .scroll-container {
+      display: flex;
+      height: 100vh;
+      width: calc((100vw + 40px) * 5); /* 5 panels with 40px gap */
+      position: fixed;
+      top: 140px;
+      left: 0;
+      padding: 40px 60px;
+      box-sizing: border-box;
+      gap: 40px;
+      z-index: 10;
+      will-change: transform;
+    }
+
+    /* Panels fixed width (viewport width) and height less padding */
+    .panel {
+      flex: 0 0 100vw;
+      height: calc(100vh - 160px); /* padding top + bottom */
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(81, 126, 219, 0.12);
+      display: flex;
+      align-items: center;
+      padding: 40px 60px;
+      box-sizing: border-box;
+      gap: 40px;
+      opacity: 0.7;
+      transform: scale(0.9);
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease;
+      user-select: text;
+      position: relative;
+      overflow: hidden;
+      min-width: calc(100vw - 120px); /* subtract horizontal padding */
+    }
+
+    /* Active panel scaling and shadow */
+    .panel.active {
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 30px 70px rgba(81, 126, 219, 0.25);
+      background: #e8f0ff;
+      z-index: 20;
+    }
+
+    /* Alternate layout: image left for odd panels, right for even */
+    .panel:nth-child(odd) {
+      flex-direction: row;
+    }
+    .panel:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    /* Text Content */
+    .panel-text {
+      flex: 1 1 50%;
+      max-width: 600px;
+      color: #2a3d66;
+      position: relative;
+      z-index: 1;
+    }
+    .panel-text h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #3a5eaa;
+      user-select: none;
+    }
+    .panel-text p {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* Image Content Area */
+    .panel-image {
+      flex: 1 1 40%;
+      min-width: 280px;
+      height: 280px;
+      border-radius: 20px;
+      background: #d7e3ff;
+      border: 3px dashed #a1b9f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-style: italic;
+      color: #517EDB;
+      font-size: 1.1rem;
+      user-select: none;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      box-shadow: inset 0 0 10px #a1b9f8;
+      position: relative;
+      z-index: 1;
+      overflow: hidden; /* Added to crop overflow */
+    }
+
+    .panel-image:hover {
+      background-color: #a7c1fc;
+      border-color: #3a5eaa;
+      color: #2a3d66;
+      box-shadow: inset 0 0 18px #3a5eaa;
+    }
+
+    /* Images inside panel-image fill container */
+    .panel-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* fills container, crops if needed */
+      border-radius: 20px;
+      display: block;
+    }
+
+    /* Fun geometric backgrounds behind text */
+    .panel::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      border-radius: 20px;
+      opacity: 0.08;
+      z-index: 0;
+      pointer-events: none;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      transition: opacity 0.5s ease;
+    }
+    .panel:nth-child(1)::before {
+      background-image: radial-gradient(circle at 30% 30%, #517EDB 15%, transparent 40%),
+                        repeating-linear-gradient(45deg, #a3b7f7 0, #a3b7f7 10px, transparent 10px, transparent 20px);
+    }
+    .panel:nth-child(2)::before {
+      background-image: repeating-radial-gradient(circle at 80% 70%, #9db8f9 10px, transparent 15px),
+                        repeating-linear-gradient(135deg, #5b81e2 0, #5b81e2 8px, transparent 8px, transparent 16px);
+    }
+    .panel:nth-child(3)::before {
+      background-image: linear-gradient(60deg, #a6c0ff 25%, transparent 25%),
+                        linear-gradient(-60deg, #a6c0ff 25%, transparent 25%);
+      background-repeat: repeat;
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+    }
+    .panel:nth-child(4)::before {
+      background-image: radial-gradient(circle at center, #8aa3f9 20%, transparent 50%),
+                        repeating-linear-gradient(90deg, #c1d1ff 0, #c1d1ff 5px, transparent 5px, transparent 10px);
+    }
+    .panel:nth-child(5)::before {
+      background-image: repeating-conic-gradient(from 45deg, #6b89e8 0deg 15deg, transparent 15deg 30deg);
+    }
+
+    /* Button styling */
+    .button {
+      background: #517EDB;
+      color: white;
+      padding: 16px 38px;
+      font-weight: 700;
+      border-radius: 16px;
+      font-size: 1.2rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      margin-top: 10px;
+    }
+    .button:hover {
+      background: #3a5eaa;
+    }
+
+    /* Hide horizontal scroll bar on body */
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Responsive fallback: vertical stacked panels on small screens */
+    @media (max-width: 768px) {
+      .scroll-wrapper {
+        margin-top: 100px;
+        height: auto;
+      }
+      .scroll-container {
+        position: static !important;
+        width: 100% !important;
+        flex-wrap: wrap;
+        gap: 30px;
+        padding: 20px;
+        height: auto !important;
+      }
+      .panel {
+        flex: 1 1 100% !important;
+        height: auto !important;
+        flex-direction: column !important;
+        padding: 30px 20px !important;
+        opacity: 1 !important;
+        transform: none !important;
+        box-shadow: 0 4px 20px rgba(81, 126, 219, 0.1) !important;
+      }
+      .panel:nth-child(even) {
+        flex-direction: column !important;
+      }
+      .panel-image {
+        min-height: 200px;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      .button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header/menu exactly like your home page -->
+  <header>
+    <div class="header-left">
+      <a href="https://www.instagram.com/families_first_org/" target="_blank" class="icon-link" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="#517EDB" viewBox="0 0 24 24" width="30" height="30">
+          <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm5.5-.75a1 1 0 110 2 1 1 0 010-2z"/>
+        </svg>
+      </a>
+      <a href="https://forms.gle/imU8d6H5z2irw8NVA" target="_blank" class="survey-link">Survey</a>
+    </div>
+    <div class="logo-title">
+      <img src="https://i.ibb.co/S4JdJsVv/Copy-of-Logos-removebg-preview.png" alt="Families First Logo" class="logo" style="height: 100px;" />
+      <h1 class="site-title">Families First</h1>
+    </div>
+    <button id="hamburger" aria-label="Menu" class="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <nav id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="our-mission.html">Our Mission</a></li>
+      <li><a href="the-problem.html">The Problem</a></li>
+      <li><a href="get-involved.html">Get Involved</a></li>
+    </ul>
+  </nav>
+
+  <div id="overlay" class="overlay"></div>
+
+  <div class="scroll-wrapper" aria-label="Horizontal scroll content">
+    <div class="scroll-container" id="scroll-container">
+      <section class="panel active" aria-labelledby="panel1-title" tabindex="0">
+        <div class="panel-text">
+          <h2 id="panel1-title">Our Mission</h2>
+          <p>
+            Families First is dedicated to raise awareness, provide support, and advocate for low-income families by addressing the social, emotional, and health-related challenges they face.
+          </p>
+        </div>
+        <div class="panel-image" aria-label="Image for Our Mission">
+          <img
+            src="https://www.projectmanager.com/wp-content/uploads/2018/11/181112_Blog_Feature_Mission.jpg"
+            alt="Families First Logo"
+          />
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="panel2-title" tabindex="-1">
+        <div class="panel-text">
+          <h2 id="panel2-title">Health & Wellness</h2>
+          <p>At Families First, we are dedicated to improving the health and wellness of low-income families in our community by providing essential resources and support. We distribute free hygiene kits, nutritional supplies, and wellness items to families in need, ensuring that every child has the tools to thrive both at home and in school. Our goal is to eliminate health-related barriers to learning by addressing basic needs and promoting overall well-being. Through school partnerships and local outreach, we aim to create a healthier, more equitable environment where every family feels supported, valued, and empowered to succeed.
+          </p>
+        </div>
+        <div class="panel-image" aria-label="Image for Health & Wellness">
+          <img
+            src="https://gwrymca.org/sites/default/files/2020-01/health_disparities.jpg"
+            alt="Health and Wellness"
+          />
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="panel3-title" tabindex="-1">
+        <div class="panel-text">
+          <h2 id="panel3-title">Education & Literacy</h2>
+          <p>At Families First, we are committed to advancing education and literacy among low-income families by offering free, personalized academic tutoring and access to high-quality learning materials. We work directly with elementary school students to strengthen foundational skills in reading, writing, and math, while also fostering a love for learning. Our volunteers provide consistent academic support, mentorship, and encouragement to help students reach their full potential. Our goal is to close the achievement gap and ensure that every child, regardless of their background, has the opportunity to succeed in school and beyond.
+          </p>
+        </div>
+        <div class="panel-image" aria-label="Image for Education & Literacy">
+          <img
+            src="https://gwrymca.org/sites/default/files/2020-01/health_disparities.jpg"
+            alt="Education and Literacy"
+          />
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="panel4-title" tabindex="-1">
+        <div class="panel-text">
+          <h2 id="panel4-title">Community Support</h2>
+          <p>At Families First, we believe that lasting change starts with strong community connections. That’s why we’re dedicated to building a supportive and inclusive network of families, volunteers, educators, and local partners who work together to uplift those in need. Beyond providing direct services, we aim to foster a sense of belonging through community events, family engagement initiatives, and open collaboration. Our goal is to grow a vibrant, united community where families feel seen, heard, and supported—one where everyone has the power to contribute and thrive.
+          </p>
+        </div>
+        <div class="panel-image" aria-label="Image for Community Support">
+          <img
+            src="https://img.freepik.com/free-photo/side-view-latin-friends-hanging-out_23-2151139417.jpg?semt=ais_hybrid&w=740"
+            alt="Community Support"
+          />
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="panel5-title" tabindex="-1">
+        <div class="panel-text">
+          <h2 id="panel5-title">Want to Help More?</h2>
+          <p>Take our survey to make a real difference.</p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScvR3dxwZYgdflwjS7ziGrKBzwi9RF1HQS7Ehj7hhxqo9rg5w/viewform" class="button">Take our survey</a>
+        </div>
+        <div class="panel-image" aria-label="Image for Want to Help More">
+          <img
+            src="https://media.istockphoto.com/id/1368965646/photo/multi-ethnic-guys-and-girls-taking-selfie-outdoors-with-backlight-happy-life-style-friendship.jpg?s=612x612&w=0&k=20&c=qYST1TAGoQGV_QnB_vMd4E8jdaQUUo95Sa2JaKSl_-4="
+            alt="Want to Help More"
+          />
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Hamburger menu code same as home page
+    const hamburger = document.getElementById('hamburger');
+    const sideMenu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('overlay');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      sideMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      sideMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    // Horizontal scroll smooth animation with fun scaling & opacity
+    const scrollContainer = document.getElementById('scroll-container');
+    const panels = scrollContainer.querySelectorAll('.panel');
+    const totalPanels = panels.length;
+
+    function setBodyHeight() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const panelGap = 40;
+      const panelWidth = vw + panelGap;
+      const totalWidth = panelWidth * (totalPanels - 1);
+      const bodyHeight = totalWidth + vh;
+      document.body.style.height = `${bodyHeight}px`;
+    }
+
+    let currentX = 0;
+    let targetX = 0;
+    const ease = 0.12;
+
+    function lerp(start, end, t) {
+      return start + (end - start) * t;
+    }
+
+    function animate() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const panelGap = 40;
+      const panelWidth = vw + panelGap;
+      const maxScroll = panelWidth * (totalPanels - 1);
+
+      targetX = Math.min(window.scrollY, maxScroll);
+      currentX = lerp(currentX, targetX, ease);
+
+      scrollContainer.style.transform = `translateX(${-currentX}px)`;
+
+      panels.forEach((panel, i) => {
+        const panelCenter = i * panelWidth + vw / 2;
+        const distance = Math.abs(currentX + vw / 2 - panelCenter);
+        const maxDistance = vw + panelGap;
+        const ratio = Math.min(distance / maxDistance, 1);
+
+        const scale = 1 - 0.12 * ratio;
+        const opacity = 1 - 0.45 * ratio;
+
+        panel.style.transform = `scale(${scale})`;
+        panel.style.opacity = opacity;
+
+        if (ratio < 0.35) {
+          panel.classList.add('active');
+          panel.setAttribute('tabindex', '0');
+        } else {
+          panel.classList.remove('active');
+          panel.setAttribute('tabindex', '-1');
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', setBodyHeight);
+    window.addEventListener('load', () => {
+      setBodyHeight();
+      animate();
+    });
+  </script>
+</body>
+</html>
+
