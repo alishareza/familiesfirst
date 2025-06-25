@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Problem - Families First</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5faff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating background effect */
+    body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #dbe9ff, #f5faff);
+  background-image:
+    radial-gradient(circle, rgba(81, 126, 219, 0.15) 2px, transparent 3px);
+  background-repeat: repeat;
+  background-size: 30px 30px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+
+
+    @keyframes floatBg {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+
+    section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 100px 10vw;
+      min-height: 100vh;
+      gap: 60px;
+      opacity: 0;
+      transform: translateY(80px);
+      transition: all 0.8s ease-out;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .text-content {
+      flex: 1;
+    }
+
+    .text-content h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #517EDB, #a6c1ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-content p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #2a3d66;
+    }
+
+    .image-content {
+      flex: 1;
+      max-width: 500px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(81, 126, 219, 0.2);
+      transition: transform 0.4s ease;
+    }
+
+    .image-content img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 20px;
+    }
+
+    section:hover .image-content {
+      transform: scale(1.03);
+    }
+
+    .button {
+      background: #517EDB;
+      color: white;
+      padding: 12px 28px;
+      font-weight: 600;
+      border-radius: 12px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background: #3a5eaa;
+    }
+
+    @media (max-width: 768px) {
+      section {
+        flex-direction: column !important;
+        text-align: center;
+        padding: 60px 20px;
+      }
+
+      .image-content {
+        max-width: 100%;
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+  <!-- Header and Menu (unchanged) -->
+  <header>
+    <div class="header-left">
+      <a href="https://www.instagram.com/families_first_org/" target="_blank" class="icon-link" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="#517EDB" viewBox="0 0 24 24" width="30" height="30">
+          <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm5.5-.75a1 1 0 110 2 1 1 0 010-2z"/>
+        </svg>
+      </a>
+      <a href="https://forms.gle/imU8d6H5z2irw8NVA" target="_blank" class="survey-link">Survey</a>
+    </div>
+    <div class="logo-title">
+      <img src="https://i.ibb.co/S4JdJsVv/Copy-of-Logos-removebg-preview.png" alt="Families First Logo" class="logo" style="height: 100px;" />
+      <h1 class="site-title">Families First</h1>
+    </div>
+    <button id="hamburger" aria-label="Menu" class="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <nav id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="our-mission.html">Our Mission</a></li>
+      <li><a href="the-problem.html">The Problem</a></li>
+      <li><a href="get-involved.html">Get Involved</a></li>
+    </ul>
+  </nav>
+
+  <div id="overlay" class="overlay"></div>
+
+  <!-- Scroll Sections (unchanged) -->
+  <section>
+    <div class="text-content">
+      <h2>The Challenge</h2>
+      <p>Low-income families often face a range of challenges that impact their well-being and opportunities. Limited financial resources can make it difficult to afford basic necessities like nutritious food, stable housing, healthcare, and school supplies. Many parents work multiple jobs or long hours, which can limit their time to support their children's education or attend important appointments. These families may also struggle to access quality childcare, transportation, or mental health services, creating additional stress. As a result, children in low-income households often face barriers to academic success and long-term stability.
+      </p>
+    </div>
+    <div class="image-content">
+      <img src="https://www.indimoproject.eu/wp-content/uploads/2020/03/low-income-residents.png" alt="Healthcare access" />
+    </div>
+  </section>
+
+  <section>
+    <div class="text-content">
+      <h2>Health Struggles</h2>
+      <p>Low-income families often face significant health struggles due to limited access to affordable healthcare, nutritious food, and safe living conditions. Without adequate insurance or transportation, many go without regular checkups or delay treatment for illnesses, leading to more serious health issues over time. Poor housing conditions can expose families to mold, pests, or unsafe drinking water, increasing the risk of chronic conditions like asthma or lead poisoning. Mental health challenges are also common, as financial stress and instability can lead to anxiety and depression, yet access to therapy or support services is often limited. These health struggles not only impact individual well-being but can affect a family's ability to thrive as a whole.
+      </p>
+    </div>
+    <div class="image-content">
+      <img src="https://nlihc.org/sites/default/files/memo_072919_web.jpg" alt="Education disparity" />
+    </div>
+  </section>
+
+  <section>
+    <div class="text-content">
+      <h2>Educational Gaps</h2>
+      <p>Low-income families often face educational gaps caused by unequal access to resources and support. Children in these households may attend underfunded schools with fewer experienced teachers, outdated materials, and limited extracurricular opportunities. At home, they may lack access to high-speed internet, quiet study spaces, or academic support like tutoring, making it harder to keep up with schoolwork. Parents, though supportive, may have limited time or educational background to assist with assignments. These factors can lead to lower test scores, reduced confidence, and fewer opportunities for advanced classes or college preparation, widening the achievement gap over time.
+      </p>
+    </div>
+    <div class="image-content">
+      <img src="https://images.squarespace-cdn.com/content/v1/56663dee841abafca76d6f46/1494879661888-CX2LFZ6CWTS93P9N11SH/image-asset.jpeg" alt="Mental health awareness" />
+    </div>
+  </section>
+
+  <section>
+    <div class="text-content">
+      <h2>A Few Other Problems</h2>
+      <p>In addition to health, education, and financial challenges, low-income families often face social and systemic barriers that can make it even harder to get ahead. Language barriers, discrimination, and immigration status can limit access to services and opportunities. Many families experience instability due to frequent moves or unsafe neighborhoods, which can disrupt schooling and emotional well-being. A lack of access to community resources—such as libraries, parks, or after-school programs—can also hinder children’s development. These overlapping challenges create a cycle of hardship that is difficult to break without strong, sustained support.
+        .</p>
+    </div>
+    <div class="image-content">
+      <img src="https://imprintnews.org/wp-content/uploads/2023/01/family_cash_benefits.jpg" alt="Systemic discrimination" />
+    </div>
+  </section>
+
+  <section>
+    <div class="text-content">
+      <h2>Make a Difference</h2>
+      <p>Support real change by joining our efforts. Take our short survey to help us understand and serve better.</p>
+      <a href="get-involved.html" class="button">Get Involved</a>
+    </div>
+    <div class="image-content">
+      <img src="https://oregoncapitalchronicle.com/wp-content/uploads/2023/06/food-bank-kid-Getty.jpg" alt="Community taking action" />
+    </div>
+  </section>
+
+  <script>
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const sideMenu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('overlay');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      sideMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      sideMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    // Scroll effect
+    const sections = document.querySelectorAll('section');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
